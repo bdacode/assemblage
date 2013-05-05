@@ -1,0 +1,4 @@
+assemblage
+==========
+
+Master + workers module
