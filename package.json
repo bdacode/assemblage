@@ -1,0 +1,17 @@
+{
+  "name": "assemblage",
+  "version": "0.1.0",
+  "description": "Manage master + workers with the help of Redis",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/andris9/assemblage.git"
+  },
+  "author": "Andris Reinman",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "85f6de6dbbc466c334635854549e34384153dc99"
+}
