@@ -13,5 +13,10 @@
   "author": "Andris Reinman",
   "license": "MIT",
   "readmeFilename": "README.md",
-  "gitHead": "85f6de6dbbc466c334635854549e34384153dc99"
+  "dependencies":{
+    "redis": "*"
+  },
+  "optionalDependencies":{
+    "hiredis": "*"
+  }
 }
