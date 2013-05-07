@@ -1,6 +1,6 @@
 {
   "name": "assemblage",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Manage master + workers with the help of Redis",
   "main": "index.js",
   "scripts": {
