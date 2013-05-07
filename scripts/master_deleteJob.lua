@@ -27,7 +27,8 @@ else
     redis.log(redis.LOG_WARNING, "removed " .. ARGV[1] .. " from " .. worker_id)
     redis.call('hset', KEYS[1], '_action', 'delete');
 
-    redis.log(redis.LOG_WARNING, KEYS[4] .. worker_id .. '.delete')
+    -- ensure there is only one record in the list
+    redis.call('lrem', KEYS[4] .. worker_id .. '.delete', 0, ARGV[1]);
     redis.call('lpush', KEYS[4] .. worker_id .. '.delete', ARGV[1]);
     return worker_id;
 end;
