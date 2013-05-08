@@ -18,13 +18,11 @@ ARGV[1] = JOB_ID
 
 local worker_id = redis.call('hget', KEYS[1], "_worker");
 if not worker_id or worker_id == "" then
-    redis.log(redis.LOG_WARNING, "unassigned " .. ARGV[1])
     redis.call('del', KEYS[1]);
     redis.call('srem', KEYS[2], ARGV[1]);
     redis.call('lrem', KEYS[3], 0, ARGV[1]);
     return "";
 else
-    redis.log(redis.LOG_WARNING, "removed " .. ARGV[1] .. " from " .. worker_id)
     redis.call('hset', KEYS[1], '_action', 'delete');
 
     -- ensure there is only one record in the list

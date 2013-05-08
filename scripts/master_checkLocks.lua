@@ -34,22 +34,14 @@ if not expired or # expired == 0 then
     return 0;
 end;
 
-redis.log(redis.LOG_WARNING, "found " .. (# expired) .. " expired workers");
-
-redis.log(redis.LOG_WARNING, #expired);
-
 for i = 1, # expired do
     local worker_id = expired[i];
-
-    redis.log(redis.LOG_WARNING, "remove worker " .. worker_id);
 
     while true do
         local job_id = redis.call('rpoplpush', KEYS[3] .. worker_id .. ".waiting", KEYS[2]);
         if not job_id then
             break;
         end;
-        redis.log(redis.LOG_WARNING, "removing job " .. job_id .. " from waiting list");
-        redis.log(redis.LOG_WARNING, "key: " .. KEYS[4] .. job_id);
         redis.call('hset', KEYS[4] .. job_id, '_worker', '');
         redis.call('hset', KEYS[4] .. job_id, '_status', 'queued');
     end;
@@ -59,7 +51,6 @@ for i = 1, # expired do
         if not job_id then
             break;
         end;
-        redis.log(redis.LOG_WARNING, "removing job " .. job_id .. " from accepted list");
         redis.call('hset', KEYS[4] .. job_id, '_worker', '');
         redis.call('hset', KEYS[4] .. job_id, '_status', 'queued');
     end;

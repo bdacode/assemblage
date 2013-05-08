@@ -11,8 +11,6 @@ ARGV[1] = JOB_ID
 
 ]]--
 
--- redis.log(redis.LOG_WARNING, "log sample")
-
 if redis.call('sismember', KEYS[1], ARGV[1]) ~= 0 then
     return 0;
 else
