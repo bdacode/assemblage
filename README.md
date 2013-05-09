@@ -5,7 +5,7 @@ assemblage
 
 Master process has an interface to add and remove jobs. Worker processes check in for new jobs and emit information about new jobs received or removed. If master goes down, no new jobs can be added but workers continue working with current jobs unaffected. When a worker goes down, master reassigns all the jobs of the worker to other workers.
 
-All the synchronization adn queues between master and workers is done with the help of Redis.
+All the synchronization between master and workers is done with the help of Redis.
 
 ## Master
 
@@ -61,7 +61,7 @@ Where
   * **callback** will be called after the job has been marked for deletion. The first parameter is an error object or null and the second one contains the registered id of the job.
 
 ```javascript
-master.deleteJob("12345, function(err, jobId){
+master.deleteJob("12345", function(err, jobId){
     console.log("Deleted job with ID: %s", jobId);
 });
 ```
