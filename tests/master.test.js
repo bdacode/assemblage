@@ -14,8 +14,8 @@ vows.describe('Master module test')
 			  var keyName="string key"+Math.random();
 			  topic.set(keyName, "string val", function(err){
 				  if(err) throw err;
-				  topic.get("string key",function(err2,value){
-				    if(err) throw err;
+				  topic.get(keyName,function(err2,value){
+				    if(err2) throw err2;
 				    assert.equal(value,"string val",'Key was not set!');
 				    topic.del(keyName,topic.print);
 				  });  
