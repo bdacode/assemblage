@@ -16,7 +16,7 @@
   "dependencies":{
     "redis": "*"
   },
-  "devDependancies":{
+  "devDependencies":{
     "vows": "*"
   },
   "optionalDependencies":{
