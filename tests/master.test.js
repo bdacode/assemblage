@@ -7,7 +7,7 @@ vows.describe('Master module test')
 	.addBatch({
 	  'Redis':{
 		    'topic':redis.createClient(6379,'127.0.0.1'),
-			'accept connections, allows to add and delete key':function(topic){
+			'accepts connections, allows to add and delete key...':function(topic){
 			  topic.on("error",function(err){
 			      throw err;  
 			  });	
@@ -19,6 +19,18 @@ vows.describe('Master module test')
 				    assert.equal(value,"string val",'Key was not set!');
 				    topic.del(keyName,topic.print);
 				  });  
+			  });
+			},
+			'has correct version':function(topic){
+			  topic.on('error',function(err){
+				throw err;  
+			  });		
+
+			  topic.info(function(err,info){
+				if(err) throw err;
+				assert.isString(info);
+				assert.isTrue(info.lenght>10);
+				assert.isTrue((/^redis_version\:2\.6/).test(info) ,'Redis have wrong version!');
 			  });
 			}	
 	    }
