@@ -27,9 +27,9 @@ vows.describe('Assemblage')
                     if (err) { promise.emit('error', err) }
                     promise.emit('success', client);
                 });
-                return promise
+                return promise;
             },
-            ' should have the correct version': function (err, client) {
+            ' should have the correct version (>2.6.x)': function (err, client) {
                 //https://github.com/mranney/node_redis#clientserver_info
                 if (err) throw err;
                 assert.isObject(client.server_info, 'We do not have the server info object!');
@@ -42,7 +42,7 @@ vows.describe('Assemblage')
     .addBatch({
         'Master': {
             'topic': function(){master.addJob(payload, this.callback)},
-            'should create a job and fires a callback without error and with jobId': function (err, jobId) {
+            'should create a job and fire a callback without error and with jobId': function (err, jobId) {
                 if (err) throw err;
                 assert.isString(jobId, 'JobId is not string!');
                 assert.isTrue(jobId.length > 3, 'Job id is too short!');
@@ -66,7 +66,7 @@ vows.describe('Assemblage')
                 });
                 return promise;
             },
-            'it should listen to add event and then recieves the job': function (job) {
+            'it should listen to add event and then process job added': function (job) {
                 assert.isObject(job.payload, 'job.payload do not exits!');
                 assert.deepEqual(job.payload,payload,'We recieved not the message we wanted');
                 job.deleteJob(function(){
