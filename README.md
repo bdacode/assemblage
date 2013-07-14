@@ -7,6 +7,11 @@ Master process has an interface to add and remove jobs. Worker processes check i
 
 All the synchronization between master and workers is done with the help of Redis.
 
+## System requirements
+This application works only on [Redis](http://redis.io/) with versions higher than **2.6.12**
+You can got actual versions on this page [http://redis.io/download](http://redis.io/download)
+
+
 ## Master
 
 Master shares jobs between clients.
@@ -40,7 +45,7 @@ To add a new job, simply call
 
 Where
 
-  * **data** is an optional data object
+  * **data** is an optional data object - payload for the job
   * **callback** will be called after the job has been registered. The first parameter is an error object or null and the second one contains the registered id of the job.
 
 ```javascript
@@ -135,3 +140,12 @@ worker.on("close", function(){
 ### Listen for errors
 
 On unexpected errors an `"error"` event is thrown.
+
+### Test
+
+Install vows and test as usual
+
+    $ npm install vows
+    $ npm test
+
+[![Build Status](https://travis-ci.org/vodolaz095/assemblage.png)](https://travis-ci.org/vodolaz095/assemblage)
