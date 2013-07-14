@@ -2,12 +2,12 @@ var vows = require('vows'),
     assert = require('assert'),
     redis = require('redis'),
     events = require('events'),
-    assemblage = require("../index"),
-    master = assemblage.createMaster("mycluster"),
-    worker = assemblage.createWorker("mycluster"),
+    assemblage = require('../index.js'),
+    master = assemblage.createMaster('mycluster'),
+    worker = assemblage.createWorker('mycluster'),
     payload = {
         _worker:Math.floor(Math.random()*9999),
-        key1: "fgdffg"+Math.floor(Math.random()*9999),
+        key1: 'fgdffg'+Math.floor(Math.random()*9999),
         key2 : [1,2,3,4,5],
         key3 : {
             doOnce:1,
@@ -19,7 +19,7 @@ var vows = require('vows'),
 vows.describe('Assemblage')
     .addBatch({
         'Redis': {
-            topic: function () {
+            'topic': function () {
                 var client = redis.createClient(),
                     promise = new (events.EventEmitter);
                 client.set('key1', 'val', function (err) {
@@ -56,7 +56,7 @@ vows.describe('Assemblage')
         },
         'Worker processes the job': {
             'topic': function () {
-                var worker=assemblage.createWorker("mycluster"),
+                var worker=assemblage.createWorker('mycluster'),
                     promise = new(events.EventEmitter);
 
                 worker.on('add',function(job){
@@ -74,7 +74,7 @@ vows.describe('Assemblage')
         },
         'Worker terminates':{
             'topic': function () {
-                var worker=assemblage.createWorker("mycluster"),
+                var worker=assemblage.createWorker('mycluster'),
                     promise = new(events.EventEmitter);
 
                 worker.on('close',function(){
