@@ -3,8 +3,9 @@ var vows = require('vows'),
     redis = require('redis'),
     events = require('events'),
     assemblage = require('../index.js'),
-    master = assemblage.createMaster('mycluster'),
-    worker = assemblage.createWorker('mycluster'),
+    myClusterName = ('mycluster'+Math.floor(Math.random()*9999)),
+    master = assemblage.createMaster(myClusterName),
+    worker = assemblage.createWorker(myClusterName),
     payload = {
         _worker:Math.floor(Math.random()*9999),
         key1: 'fgdffg'+Math.floor(Math.random()*9999),
@@ -57,7 +58,7 @@ vows.describe('Assemblage')
         },
         'Worker processes the job': {
             'topic': function () {
-                var worker=assemblage.createWorker('mycluster'),
+                var worker=assemblage.createWorker(myClusterName),
                     promise = new(events.EventEmitter);
 
                 worker.on('add',function(job){
@@ -65,7 +66,7 @@ vows.describe('Assemblage')
                 });
                 return promise;
             },
-            ', it should listen to add event and then recieves the job': function (job) {
+            'it should listen to add event and then recieves the job': function (job) {
                 assert.isObject(job.payload, 'job.payload do not exits!');
                 assert.deepEqual(job.payload,payload,'We recieved not the message we wanted');
                 job.deleteJob(function(){
@@ -75,7 +76,7 @@ vows.describe('Assemblage')
         },
         'Worker terminates':{
             'topic': function () {
-                var worker=assemblage.createWorker('mycluster'),
+                var worker=assemblage.createWorker(myClusterName),
                     promise = new(events.EventEmitter);
 
                 worker.on('close',function(){
