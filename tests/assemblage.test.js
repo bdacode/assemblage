@@ -23,6 +23,7 @@ vows.describe('Assemblage')
                 var client = redis.createClient(),
                     promise = new (events.EventEmitter);
                 client.set('key1', 'val', function (err) {
+                    if (err) { promise.emit('error', err) }
                     promise.emit('success', client);
                 });
                 return promise
@@ -33,7 +34,7 @@ vows.describe('Assemblage')
                 assert.isObject(client.server_info, 'We do not have the server info object!');
                 assert.isString(client.server_info.redis_version, 'Unable to extract the redis server version!');
                 assert.isTrue(/^2\.6/.test(client.server_info.redis_version), ' We have redis version of '
-                    + client.server_info.redis_version + ' which is NOT SUPPORTED. Use version higher than 2.6.14!');
+                    + client.server_info.redis_version + ' which is NOT SUPPORTED. Use version higher than 2.6.x!');
             }
         }
     })
