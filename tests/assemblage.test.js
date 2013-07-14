@@ -18,9 +18,29 @@ var vows = require('vows'),
 
 vows.describe('Assemblage')
     .addBatch({
+        'Redis': {
+            topic: function () {
+                var client = redis.createClient(),
+                    promise = new (events.EventEmitter);
+                client.set('key1', 'val', function (err) {
+                    promise.emit('success', client);
+                });
+                return promise
+            },
+            ' should have the correct version': function (err, client) {
+                //https://github.com/mranney/node_redis#clientserver_info
+                if (err) throw err;
+                assert.isObject(client.server_info, 'We do not have the server info object!');
+                assert.isString(client.server_info.redis_version, 'Unable to extract the redis server version!');
+                assert.isTrue(/^2\.6/.test(client.server_info.redis_version), ' We have redis version of '
+                    + client.server_info.redis_version + ' which is NOT SUPPORTED. Use version higher than 2.6.14!');
+            }
+        }
+    })
+    .addBatch({
         'Master': {
             'topic': function(){master.addJob(payload, this.callback)},
-            'do creates a job and fires a callback without error and with jobId': function (err, jobId) {
+            'should create a job and fires a callback without error and with jobId': function (err, jobId) {
                 if (err) throw err;
                 assert.isString(jobId, 'JobId is not string!');
                 assert.isTrue(jobId.length > 3, 'Job id is too short!');
@@ -30,7 +50,7 @@ vows.describe('Assemblage')
     .addBatch({
         'Worker': {
             'topic': worker,
-            ' is event emmiter': function (topic) {
+            ' should be event emmiter': function (topic) {
                 assert.isFunction(topic.on, ' worker.on is not a function!');
             }
         },
@@ -44,7 +64,7 @@ vows.describe('Assemblage')
                 });
                 return promise;
             },
-            'it listens to add event and then recieves the job': function (job) {
+            ', it should listen to add event and then recieves the job': function (job) {
                 assert.isObject(job.payload, 'job.payload do not exits!');
                 assert.deepEqual(job.payload,payload,'We recieved not the message we wanted');
                 job.deleteJob(function(){
@@ -63,7 +83,7 @@ vows.describe('Assemblage')
                 worker.terminate();
                 return promise;
             },
-            'and emits event of "close"':function(message){
+            'and should emit event of "close"':function(message){
                 assert.equal(message,'closed','Worker do not emits event of "close" being terminated!');
             }
         }
