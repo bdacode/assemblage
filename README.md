@@ -148,4 +148,4 @@ Install vows and test as usual
     $ npm install vows
     $ npm test
 
-[![Build Status](https://travis-ci.org/vodolaz095/assemblage.png)](https://travis-ci.org/vodolaz095/assemblage)
+[![Build Status](https://travis-ci.org/pipedrive/assemblage.png)](https://travis-ci.org/pipedrive/assemblage)
