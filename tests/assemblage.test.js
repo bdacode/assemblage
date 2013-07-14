@@ -58,11 +58,15 @@ vows.describe('Assemblage')
         },
         'Worker processes the job': {
             'topic': function () {
-                var worker=assemblage.createWorker(myClusterName),
-                    promise = new(events.EventEmitter);
+                var promise = new(events.EventEmitter);
 
-                worker.on('add',function(job){
-                    promise.emit('success',job);
+                master.addJob(payload, function(err, jobId){
+                    if (err) throw err;
+                    assert.isString(jobId, 'JobId is not string!');
+                    assert.isTrue(jobId.length > 3, 'Job id is too short!');
+                    worker.on('add',function(job){
+                        promise.emit('success',job);
+                    });
                 });
                 return promise;
             },
@@ -76,7 +80,7 @@ vows.describe('Assemblage')
         },
         'Worker terminates':{
             'topic': function () {
-                var worker=assemblage.createWorker(myClusterName),
+                var worker=assemblage.createWorker(myClusterName+'a'),
                     promise = new(events.EventEmitter);
 
                 worker.on('close',function(){
